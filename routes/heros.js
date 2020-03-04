@@ -127,9 +127,8 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        jwt.verify(token, SECRET_KEY)
+        jwt.verify(token, SECRET_KEY);
 
-        return res.status(200).send({ "Result": "Valid token" });
 
     } catch (error) {
         return res.status(400).send({ "Result": "Invalid token" });
