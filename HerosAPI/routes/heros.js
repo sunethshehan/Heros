@@ -1,6 +1,9 @@
 var express = require('express')
 var router = express.Router()
 
+const jwt = require("jsonwebtoken")
+
+var SECRET_KEY = "123456";
 var Hero = require("../models/model");
 
 let heroesArry = [
@@ -117,6 +120,22 @@ router.put('/:heroName', (req, res) => {
 
 router.post('/', async (req, res) => {
 
+    //Access the custom header values
+    const token = req.header("x-jwt-token");
+    if (!token) {
+        return res.send({ "Result": "Access denied" })
+    }
+
+    try {
+        jwt.verify(token, SECRET_KEY)
+
+        return res.status(200).send({ "Result": "Valid token" });
+
+    } catch (error) {
+        return res.status(400).send({ "Result": "Invalid token" });
+    }
+
+
 
     let NewName = req.body.name;
     if (!NewName)
@@ -134,7 +153,7 @@ router.post('/', async (req, res) => {
     if (!NewMovies)
         return res.status(422).send({ InvalidInput: "movies Not Found in Request Body" });
 
-    let ImageUrl  = req.body.imgUrl;
+    let ImageUrl = req.body.imgUrl;
 
     let heroToAdd = new Hero({
         name: NewName,
@@ -143,7 +162,7 @@ router.post('/', async (req, res) => {
         deceased: false,
         likeCount: 50,
         movies: NewMovies,
-        imgUrl : ImageUrl
+        imgUrl: ImageUrl
     });
 
     await heroToAdd.save().then(createdHero => {

@@ -13,9 +13,12 @@ mongoose.connect('mongodb://localhost:27017/HeroDB', { useNewUrlParser: true });
 let authenticator = require('./middleware/authenticator')
 let sendemail = require('./middleware/emailsender')
 let heroRoutes = require('./routes/heros')
+let users = require('./routes/users')
 let homeRoutes = require('./routes/home')
+let auth = require('./routes/auth')
 
-const PORT = 3005;
+//Get the port which is setup by Heroku
+const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
@@ -27,6 +30,9 @@ app.use(sendemail);
 
 app.use('/', homeRoutes);
 app.use('/api/heros/', heroRoutes);
+app.use('/api/users/', users)
+app.use('/api/auth/', auth)
+
 
 
 //specify only admin routes
