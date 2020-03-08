@@ -8,7 +8,7 @@ let cors = require("cors");
 let express = require('express')
 let app = express();
 
-mongoose.connect('mongodb://localhost:27017/HeroDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://MongoDBUser:MongoDBUser@cluster0-4rox4.mongodb.net/HeroDB?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 let authenticator = require('./middleware/authenticator')
 let sendemail = require('./middleware/emailsender')
