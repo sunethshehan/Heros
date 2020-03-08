@@ -18,7 +18,7 @@ let homeRoutes = require('./routes/home')
 let auth = require('./routes/auth')
 
 //Get the port which is setup by Heroku
-const PORT = process.env.PORT;
+const PORT = 3005;
 
 app.use(cors());
 app.use(express.json());
